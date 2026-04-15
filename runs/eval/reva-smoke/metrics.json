@@ -1,0 +1,64 @@
+{
+  "num_questions": 10,
+  "num_answered": 2,
+  "accuracy": 0.2,
+  "by_category": {
+    "factual perception": {
+      "count": 1,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "temporal understanding": {
+      "count": 4,
+      "correct": 1,
+      "accuracy": 0.25
+    },
+    "spatial and viewpoint reasoning": {
+      "count": 3,
+      "correct": 1,
+      "accuracy": 0.3333333333333333
+    },
+    "causal reasoning": {
+      "count": 2,
+      "correct": 0,
+      "accuracy": 0.0
+    }
+  },
+  "by_subcategory": {
+    "change detection": {
+      "count": 1,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "temporal grounding": {
+      "count": 3,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "trend and pattern analysis": {
+      "count": 1,
+      "correct": 1,
+      "accuracy": 1.0
+    },
+    "viewpoint and perspective analysis": {
+      "count": 2,
+      "correct": 1,
+      "accuracy": 0.5
+    },
+    "geometric relation reasoning": {
+      "count": 1,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "consequence reasoning": {
+      "count": 1,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "hypothetical reasoning": {
+      "count": 1,
+      "correct": 0,
+      "accuracy": 0.0
+    }
+  }
+}

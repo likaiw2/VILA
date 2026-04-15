@@ -24,7 +24,7 @@ pip install https://github.com/Dao-AILab/flash-attention/releases/download/v2.5.
 pip install -e ".[train,eval]"
 
 # Quantization requires the newest triton version, and introduce dependency issue
-pip install triton==3.1.0
+pip install triton==2.3.0
 
 # numpy introduce a lot dependencies issues, separate from pyproject.yaml
 # pip install numpy==1.26.4
@@ -34,4 +34,4 @@ site_pkg_path=$(python -c 'import site; print(site.getsitepackages()[0])')
 cp -rv ./llava/train/deepspeed_replace/* $site_pkg_path/deepspeed/
 
 # Downgrade protobuf to 3.20 for backward compatibility
-pip install protobuf==3.20.*
+pip install protobuf==3.20.3

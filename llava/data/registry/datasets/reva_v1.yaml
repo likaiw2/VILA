@@ -1,0 +1,6 @@
+---
+reva_v1_train:
+  _target_: llava.data.LLaVADataset
+  data_path: .data/ReVA_V1/reva_v1_train_vila.json
+  media_dir: .data/ReVA_V1
+  is_video: true

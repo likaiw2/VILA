@@ -84,8 +84,8 @@ def _load_video(video_path: str, *, num_frames: int, fps: float) -> List[PIL.Ima
 
 
 def _extract_video(video: Video, config: PretrainedConfig) -> List[PIL.Image.Image]:
-    num_frames = config.num_video_frames
-    fps = getattr(config, "fps", 0.0)
+    num_frames = getattr(config, "num_video_frames", None) or 8
+    fps = getattr(config, "fps", 0.0) or 0.0
     frames = _load_video(video.path, num_frames=num_frames, fps=fps)
     return frames
 

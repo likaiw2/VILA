@@ -25,7 +25,7 @@ dependencies = [
     "nltk==3.3", "pywsd==1.2.4", "opencv-python-headless==4.8.0.76",
     "s2wrapper@git+https://github.com/bfshi/scaling_on_scales",
     "tyro", "pytest", "pre-commit", "loguru", "hydra-core", "xgrammar",
-    "ps3-torch@git+https://github.com/NVlabs/PS3"
+
 ]
 
 [project.scripts]
@@ -35,7 +35,7 @@ vila-infer = "llava.cli.infer:main"
 vila-upload = "llava.cli.upload2hf:main"
 
 [project.optional-dependencies]
-train = ["deepspeed==0.9.5", "ninja", "wandb"]
+train = ["deepspeed==0.9.5", "ninja"]
 eval = ["word2number", "Levenshtein", "nltk", "pywsd"]
 
 [project.urls]

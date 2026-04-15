@@ -26,5 +26,14 @@ TODO:
 3. fp8 infernce example (load directly from a fp8 and fwd)
 4. bind fp8 related configs to QLlamaConfig {"coat_fp8_args": {}}
 """
-from .language_model.fp8linearqwen2 import FP8LinearQwen2Config, FP8LinearQwen2Model
-from .language_model.qllava_qllama import QLlavaLlamaConfig, QLlavaLlamaModel
+try:
+    from .language_model.fp8linearqwen2 import FP8LinearQwen2Config, FP8LinearQwen2Model
+except ImportError:
+    FP8LinearQwen2Config = None
+    FP8LinearQwen2Model = None
+
+try:
+    from .language_model.qllava_qllama import QLlavaLlamaConfig, QLlavaLlamaModel
+except ImportError:
+    QLlavaLlamaConfig = None
+    QLlavaLlamaModel = None

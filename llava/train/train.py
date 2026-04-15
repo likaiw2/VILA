@@ -36,8 +36,6 @@ from llava.constants import IGNORE_INDEX
 from llava.data import make_supervised_data_module
 from llava.mm_utils import process_image
 from llava.model import LlavaLlamaConfig, LlavaLlamaModel, LlavaTopDownLlamaConfig, LlavaTopDownLlamaModel
-from llava.model.language_model.fp8linearqwen2 import Qwen2ForCausalLM  # We need this line to register AutoConfig
-from llava.model.language_model.qllava_qllama import QLlavaLlamaModel, quantize_args_to_model_class
 from llava.train.args import DataArguments, ModelArguments, TrainingArguments
 from llava.train.callbacks.autoresume_callback import AutoResumeCallback
 from llava.train.llava_trainer import LLaVATopDownTrainer, LLaVATrainer, VILADPOTrainer
@@ -58,6 +56,18 @@ logger = logging.get_logger(__name__)
 if "WANDB_PROJECT" not in os.environ:
     # Default to WANDB project "VILA".
     os.environ["WANDB_PROJECT"] = "VILA"
+
+
+try:
+    from llava.model.language_model.fp8linearqwen2 import Qwen2ForCausalLM  # Needed only for FP8/Qwen2 registration.
+    from llava.model.language_model.qllava_qllama import QLlavaLlamaModel, quantize_args_to_model_class
+
+    QUANTIZATION_IMPORT_ERROR = None
+except ImportError as exc:
+    Qwen2ForCausalLM = None
+    QLlavaLlamaModel = None
+    quantize_args_to_model_class = {}
+    QUANTIZATION_IMPORT_ERROR = exc
 
 
 def get_nb_trainable_parameters(model) -> tuple[int, int]:
@@ -553,6 +563,12 @@ def train():
 
     if training_args.use_one_logger:
         one_logger_callback_utils.on_model_init_start()
+
+    if model_args.quantize_model != "false" and QUANTIZATION_IMPORT_ERROR is not None:
+        raise ImportError(
+            "Quantized training was requested, but FP8/quantization modules could not be imported. "
+            "Use `quantize_model=false` for standard training or fix the Triton/FP8 environment first."
+        ) from QUANTIZATION_IMPORT_ERROR
 
     if model_args.quantize_model in quantize_args_to_model_class.keys():
         model = model_cls(
