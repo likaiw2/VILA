@@ -20,3 +20,13 @@ llava/model/multimodal_projector/__pycache__/
 llava/model/encoders/image/__pycache__/
 scripts/eval/__pycache__/
 .data
+llava/trl/__pycache__/
+llava/trl/extras/__pycache__/
+llava/train/callbacks/__pycache__/
+llava/trl/trainer/__pycache__/
+llava/trl/models/__pycache__/
+llava/trl/environment/__pycache__/
+runs/log/
+runs/benchmark/
+runs/eval/
+scripts/benchmark/__pycache__/compare_vila_models.cpython-313.pyc

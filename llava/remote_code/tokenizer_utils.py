@@ -19,8 +19,8 @@ from typing import Any, Dict, List, Optional, Sequence
 import torch
 import transformers
 
+from . import conversation as conversation_lib
 from .constants import IGNORE_INDEX, SENTINEL_TOKEN
-from .conversation import SeparatorStyle, default_conversation
 from .mm_utils import tokenizer_image_token
 
 # __all__ = [
@@ -42,7 +42,9 @@ def tokenize_conversation_legacy(
     overrides: Optional[Dict[str, str]] = None,
     no_system_prompt: bool = False,
 ) -> torch.Tensor:
-    conv = default_conversation.copy()
+    conv = conversation_lib.default_conversation.copy()
+    if conv.sep_style == conversation_lib.SeparatorStyle.AUTO:
+        conv = conversation_lib.conv_templates["vicuna_v1"].copy()
     roles = {"human": conv.roles[0], "gpt": conv.roles[1]}
 
     if no_system_prompt:
@@ -82,7 +84,10 @@ def tokenize_conversation(
     for message in messages:
         message["value"] = message["value"].strip()
 
-    if default_conversation.sep_style != SeparatorStyle.AUTO:
+    if (
+        conversation_lib.default_conversation.sep_style != conversation_lib.SeparatorStyle.AUTO
+        or getattr(tokenizer, "chat_template", None) is None
+    ):
         return tokenize_conversation_legacy(
             messages,
             tokenizer,

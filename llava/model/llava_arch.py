@@ -404,8 +404,8 @@ class LlavaMetaModel(ABC):
     def get_output_embeddings(self):
         return self.get_llm().get_output_embeddings()
 
-    def resize_token_embeddings(self, embed_size):
-        self.get_llm().resize_token_embeddings(embed_size)
+    def resize_token_embeddings(self, embed_size, **kwargs):
+        self.get_llm().resize_token_embeddings(embed_size, **kwargs)
 
 
 class LlavaMetaForCausalLM(ABC):

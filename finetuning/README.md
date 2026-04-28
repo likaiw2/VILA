@@ -1,5 +1,9 @@
 # VILA Fine-Tuning Instructions
 
+For the validated local workflow used in this repository checkout for `Efficient-Large-Model/VILA1.5-3b` on `ReVA_V1`, see:
+
+- [REVA_VILA15_3B_LOCAL.md](/home/liw324/code/VILA/finetuning/REVA_VILA15_3B_LOCAL.md)
+
 # Data Preparation
 
 ## Single Image Dataset

@@ -44,7 +44,14 @@ class VisionTower(nn.Module):
     def feature_select(self, image_forward_outs):
         image_features = image_forward_outs.hidden_states[self.select_layer]
         if self.select_feature == "patch":
-            image_features = image_features[:, 1:]
+            # SigLIP vision embeddings do not prepend a CLS token, so dropping
+            # the first token turns a square patch grid (e.g. 27x27=729) into a
+            # non-square count (728), which later breaks VILA's downsample
+            # projector. Keep the full patch grid for SigLIP and only strip the
+            # first token for backbones that actually use a leading CLS token.
+            model_type = getattr(self.vision_tower.config, "model_type", "").lower()
+            if "siglip" not in model_type:
+                image_features = image_features[:, 1:]
         elif self.select_feature == "cls_patch":
             image_features = image_features
         else:

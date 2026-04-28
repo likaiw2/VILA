@@ -137,7 +137,8 @@ def load_pretrained_model(
     model.eval()
     image_processor = None
     if is_mm_model(model_path):
-        model.resize_token_embeddings(len(tokenizer))
+        if model.get_input_embeddings().weight.shape[0] != len(tokenizer):
+            model.resize_token_embeddings(len(tokenizer), mean_resizing=False)
         vision_tower = model.get_vision_tower()
         if vision_tower is None:
             raise ValueError("Vision tower failed to load!")

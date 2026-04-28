@@ -191,7 +191,7 @@ def smart_tokenizer_and_embedding_resize(
     Note: This is the unoptimized version that may make your embedding size not be divisible by 64.
     """
     num_new_tokens = tokenizer.add_special_tokens(special_tokens_dict)
-    model.resize_token_embeddings(len(tokenizer))
+    model.resize_token_embeddings(len(tokenizer), mean_resizing=False)
 
     if num_new_tokens > 0:
         input_embeddings = model.get_input_embeddings().weight.data
@@ -622,10 +622,15 @@ def train():
                 model.load_state_dict(non_lora_trainables, strict=False)
 
             mprint("Resume from checkpoint...", resume_path)
-            model = PeftModel.from_pretrained(model, resume_path, is_trainable=True)
+            model = PeftModel.from_pretrained(
+                model,
+                resume_path,
+                is_trainable=True,
+                autocast_adapter_dtype=False,
+            )
         else:
             mprint("Adding LoRA adapters...")
-            model = get_peft_model(model, lora_config)
+            model = get_peft_model(model, lora_config, autocast_adapter_dtype=False)
         mprint(model)
         model.print_trainable_parameters()
 
@@ -750,7 +755,7 @@ def train():
             time_tokens = [model.config.time_token_format.format(t=t) for t in range(model.config.num_time_tokens)]
             num_new_tokens = tokenizer.add_tokens(time_tokens)
             assert len(time_tokens) == num_new_tokens or num_new_tokens == 0
-            model.resize_token_embeddings(len(tokenizer))
+            model.resize_token_embeddings(len(tokenizer), mean_resizing=False)
             model.config.time_token_ids = tokenizer.convert_tokens_to_ids(time_tokens)
         else:
             model.config.time_token_ids = []

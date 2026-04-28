@@ -16,8 +16,9 @@ def parse_args() -> argparse.Namespace:
 def normalize_video_path(raw_path: str, dataset_root: str, dataset_prefix: str) -> str:
     dataset_root_path = Path(dataset_root)
     suffix = raw_path
-    if raw_path.startswith(dataset_prefix):
-        suffix = raw_path[len(dataset_prefix) :].lstrip("/\\")
+    if dataset_prefix in raw_path:
+        suffix = raw_path.split(dataset_prefix, 1)[1].lstrip("/\\")
+    suffix = suffix.replace("SRA_Select/", "ERA_Select/")
 
     suffix_path = Path(suffix)
     candidates = [suffix_path]
